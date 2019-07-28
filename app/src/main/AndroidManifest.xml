@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".NewTransactionActivity"
-            android:label="@string/new_transaction">
+            android:label="@string/new_transaction_title">
 
         </activity>
         <activity
