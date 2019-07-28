@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TransactionKeeper</string>
+    <string name="new_transaction">New transaction</string>
+    <string name="action_settings">Settings</string>
+</resources>
