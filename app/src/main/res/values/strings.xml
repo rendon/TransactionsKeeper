@@ -3,5 +3,7 @@
     <string name="new_transaction_title">New transaction</string>
     <string name="new_transaction_amount">Amount</string>
     <string name="new_transaction_description">Description</string>
+
+    <string name="new_transaction_invalid_amount">Amount must be a positive number</string>
     <string name="action_settings">Settings</string>
 </resources>
