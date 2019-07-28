@@ -1,9 +1,13 @@
 package mx.letmethink.transactionkeeper;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import mx.letmethink.transactionkeeper.persistence.Transaction;
+import mx.letmethink.transactionkeeper.persistence.TransactionsDatabase;
 
 public class SaveTransactionListener implements View.OnClickListener {
     private static final String TAG = SaveTransactionListener.class.getSimpleName();
@@ -40,6 +44,17 @@ public class SaveTransactionListener implements View.OnClickListener {
             Log.i(TAG, "Saving transaction(" + details + ")");
             amountInputLayout.setError(null);
             amountInputLayout.setErrorEnabled(false);
+
+            TransactionsDatabase database = TransactionsDatabase.getInstance(activity);
+
+            final Transaction transaction = new Transaction(Double.valueOf(amount), description);
+            AsyncTask.execute(() -> database.transactionDao().insertTransaction(transaction));
+            AsyncTask.execute(() -> {
+                        for (Transaction t : database.transactionDao().getTransactions()) {
+                            Log.i(TAG, "ID: " + t.getId() + " Amount: " + t.getAmount());
+                        }
+                    }
+            );
         } else {
             Log.e(TAG, "Invalid amount, please review");
             amountInputLayout.setError(activity.getString(R.string.new_transaction_invalid_amount));
