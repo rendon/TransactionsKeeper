@@ -1,9 +1,13 @@
 package mx.letmethink.transactionkeeper;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -12,10 +16,12 @@ import mx.letmethink.transactionkeeper.persistence.TransactionsDatabase;
 
 public class SaveTransactionListener implements View.OnClickListener {
     private static final String TAG = SaveTransactionListener.class.getSimpleName();
-    private final NewTransactionActivity activity;
+    private final Activity activity;
+    private final TransactionsDatabase database;
 
-    public SaveTransactionListener(NewTransactionActivity activity) {
+    public SaveTransactionListener(Activity activity, TransactionsDatabase database) {
         this.activity = activity;
+        this.database = database;
     }
 
 
@@ -36,6 +42,7 @@ public class SaveTransactionListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        final Context context = activity;
         TextInputLayout amountInputLayout = activity.findViewById(R.id.new_transaction_amount);
         String amount = getText(amountInputLayout);
         TextInputLayout descriptionInputLayout = activity.findViewById(R.id.new_transaction_description);
@@ -44,23 +51,23 @@ public class SaveTransactionListener implements View.OnClickListener {
             String details = String.format("Amount = %s Description = %s", amount, description);
             Log.i(TAG, "Saving transaction(" + details + ")");
             amountInputLayout.setError(null);
-            amountInputLayout.setErrorEnabled(false);
-
-            TransactionsDatabase database = TransactionsDatabase.getInstance(activity);
 
             final Transaction transaction = new Transaction(Double.valueOf(amount), description);
-            AsyncTask.execute(() -> database.transactionDao().insertTransaction(transaction));
-            AsyncTask.execute(() -> {
-                        for (Transaction t : database.transactionDao().getTransactions()) {
-                            Log.i(TAG, "ID: " + t.getId() + " Amount: " + t.getAmount());
-                        }
-                    }
-            );
-            String text = activity.getText(R.string.new_transaction_save_confirmation).toString();
-            Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+            saveTransaction(transaction);
+            displayConfirmationMessage(context);
         } else {
-            Log.e(TAG, "Invalid amount, please review");
-            amountInputLayout.setError(activity.getString(R.string.new_transaction_invalid_amount));
+            amountInputLayout.setError(context.getString(R.string.new_transaction_invalid_amount));
         }
+    }
+
+    @VisibleForTesting
+    void saveTransaction(Transaction transaction) {
+        AsyncTask.execute(() -> database.transactionDao().insertTransaction(transaction));
+    }
+
+    @VisibleForTesting
+    void displayConfirmationMessage(final Context context) {
+        String text = context.getText(R.string.new_transaction_save_confirmation).toString();
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }
