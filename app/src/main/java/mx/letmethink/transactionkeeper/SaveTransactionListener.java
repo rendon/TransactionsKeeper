@@ -3,6 +3,7 @@ package mx.letmethink.transactionkeeper;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -55,6 +56,8 @@ public class SaveTransactionListener implements View.OnClickListener {
                         }
                     }
             );
+            String text = activity.getText(R.string.new_transaction_save_confirmation).toString();
+            Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
         } else {
             Log.e(TAG, "Invalid amount, please review");
             amountInputLayout.setError(activity.getString(R.string.new_transaction_invalid_amount));

@@ -5,5 +5,6 @@
     <string name="new_transaction_description">Description</string>
 
     <string name="new_transaction_invalid_amount">Amount must be a positive number</string>
+    <string name="new_transaction_save_confirmation">Transaction saved</string>
     <string name="action_settings">Settings</string>
 </resources>
