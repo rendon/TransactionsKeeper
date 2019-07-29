@@ -19,7 +19,7 @@ public class SaveTransactionListener implements View.OnClickListener {
     private final Activity activity;
     private final TransactionsDatabase database;
 
-    public SaveTransactionListener(Activity activity, TransactionsDatabase database) {
+    SaveTransactionListener(final Activity activity, final TransactionsDatabase database) {
         this.activity = activity;
         this.database = database;
     }

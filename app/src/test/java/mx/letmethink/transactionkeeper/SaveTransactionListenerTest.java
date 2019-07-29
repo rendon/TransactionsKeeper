@@ -40,9 +40,9 @@ public class SaveTransactionListenerTest {
         assertThat(SaveTransactionListener.getText(layout)).isEqualTo("23.2");
     }
 
-    private TextInputLayout mockInput(final String amount) {
+    private TextInputLayout mockInput(final String text) {
         Editable editable = mock(Editable.class);
-        doReturn(amount).when(editable).toString();
+        doReturn(text).when(editable).toString();
         EditText editText = mock(EditText.class);
         doReturn(editable).when(editText).getText();
 
