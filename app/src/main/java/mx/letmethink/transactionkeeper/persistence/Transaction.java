@@ -23,9 +23,12 @@ public class Transaction {
         createdAt = updatedAt = System.currentTimeMillis();
     }
 
+    public String getCreationDate() {
+        return DATE_FORMATTER.format(new Date(createdAt));
+    }
+
     public String getSummary() {
-        String date = DATE_FORMATTER.format(new Date(createdAt));
-        return String.format(Locale.getDefault(), "%s - %f - %s", date, amount, description);
+        return String.format(Locale.getDefault(), "%.02f - %s", amount, description);
     }
 
     @NonNull
