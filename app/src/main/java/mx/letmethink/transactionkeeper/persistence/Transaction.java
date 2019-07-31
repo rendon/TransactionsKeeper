@@ -4,15 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
+
 
 @Entity(tableName = "transactions")
 public class Transaction {
+    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(
+            "yyyy-MM-dd HH:mm:ss",
+            Locale.US
+    );
     public Transaction(Double amount, String description) {
         id = UUID.randomUUID().toString();
         this.amount = amount;
         this.description = description;
         createdAt = updatedAt = System.currentTimeMillis();
+    }
+
+    public String getSummary() {
+        String date = DATE_FORMATTER.format(new Date(createdAt));
+        return String.format(Locale.getDefault(), "%s - %f - %s", date, amount, description);
     }
 
     @NonNull

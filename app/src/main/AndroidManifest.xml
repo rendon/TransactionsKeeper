@@ -9,10 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewTransactionActivity"
-            android:label="@string/new_transaction_title">
-
+        <activity
+            android:name=".ListTransactionsActivity"
+            android:label="@string/list_transactions_title"
+            >
         </activity>
+
+        <activity
+            android:name=".NewTransactionActivity"
+            android:label="@string/new_transaction_title">
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
